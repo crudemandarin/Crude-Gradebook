@@ -1,0 +1,7 @@
+. Add support for S and NCR grades
+. Add color feature to courses
+. admin client to make db modifications
+. animations: add transitions for addition/removal/moving of cards
+. add button to toggle mask on password text field
+. add ability to hit 'Enter' on a form to prompt submit
+. on large + screens, have transcript controls appear to the right of the control stack

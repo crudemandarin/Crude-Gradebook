@@ -1,0 +1,206 @@
+/* App.css */
+/* Page Elements */
+:root {
+  font-size: 16px;
+  font-weight: 200;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  min-width: 100vw;
+  min-height: 100vh;
+  background-image: linear-gradient(to left top, #2eb872, #4cbf74, #63c776, #78ce79, #8bd57d, #9ed06c, #b0c95c, #c1c250, #d7a937, #e98d32, #f66c40, #fa4659);
+  color: black;
+}
+
+/* Containers */
+.App {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 90%;
+  display: flex;
+}
+
+.control-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.semester-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.semester-card-container {
+  width: 90%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.courses-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Page Components */
+.page-title-card {
+  margin: 0.5rem 0;
+  padding: 5px 20px;
+  padding-bottom: 10px;
+  width: 300px;
+
+  color: black;
+  background-image: linear-gradient(to right top, #5ffbf1, #41e9fd, #4ad5ff, #69bff8, #86a8e7);
+
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px;
+}
+
+.control-card {
+  margin: 0.4rem 0;
+  padding: 10px 20px;
+  padding-bottom: 15px;
+  width: 300px;
+  height: max-content;
+
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px;
+}
+
+.trends-card {
+  margin: 1rem 0.5rem;
+  padding: 10px 20px;
+  width: 100%;
+  max-width: 650px;
+  height: max-content;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 2px 2px 8px;
+}
+
+.semester-card {
+  margin: 0.5rem 0.5rem;
+  padding: 10px 20px;
+  width: 260px;
+  height: max-content;
+
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 2px 2px 8px;
+}
+
+.semester-card-footer {
+  border-top: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+}
+
+.course-block {
+  margin: 0.75rem 0;
+  padding-left: 0.5rem;
+  width: 250px;
+  height: max-content;
+
+  display: flex;
+  border-radius: 7px;
+  border-left: 4px solid black;
+}
+
+/* Text Styles */
+.page-title {
+  font-size: 2.25rem;
+  font-weight: bold;
+}
+
+.page-subtitle {
+  font-size: 1.25rem;
+}
+
+.page-header {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.control-header {
+  font-size: 1.5rem;
+  font-weight: 350;
+}
+
+.semester-header {
+  text-align: center;
+  margin-bottom: 0.25rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.semester-subheader {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid black;
+  font-size: 1.1rem;
+}
+
+.course-header {
+  display: flex;
+  justify-content: space-between;
+  height: 1.6rem;
+  font-weight: 500;
+}
+
+.edit-course-header {
+  margin-bottom: 0.50rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.error-message {
+  color: #FF3232;
+  font-weight: 400;
+}
+
+/* Media Queries */
+/* Bootstrap Large ( < 1200px ) */
+@media screen and (max-width:1119px) {
+
+}
+
+/* Bootstrap Medium ( < 992px ) */
+@media screen and (max-width:991px) {
+
+}
+
+/* Bootstrap Small ( < 768px ) */
+@media screen and (max-width:767px) {
+}
+
+@media screen and (max-width: 700px) {
+  .container {
+    width: 98%;
+    flex-wrap: wrap;
+  }
+  .control-container {
+    width: 100vw;
+  }
+  .semester-container {
+    width: 100vw;
+  }
+}
+
+/* Bootstrap Extra Small ( <= 576px ) */
+@media screen and (max-width:576px) {
+
+}
