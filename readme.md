@@ -1,2 +1,2 @@
 # Crude Gradebook
-# by Nykolas Farhangi
+## by Nykolas Farhangi
