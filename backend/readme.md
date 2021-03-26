@@ -1,15 +1,28 @@
-# Crude Backend
-by Nykolas Farhangi
+# Crude Gradebook - Python Flask Backend
 
-## Getting Started
-1. Create virtual environment
-`python -m venv venv`
+Authored by Nykolas Farhangi (3/24/21)
 
-2. Activate virtual environment
-`venv/Scripts/activate`
+## Usage Guide
 
-3. Install dependencies
-`pip install -r requirements.txt`
+1. Set up and Activate Python Virtual Environment
+```
+$ python3 -m venv venv
+$ source venv/bin/activate
+(venv) $ _
+```
+or
+```
+$ python -m venv venv
+$ venv\Scripts\activate
+(venv) $ _
+```
+
+2. Install Dependencies
+```
+pip install -r requirements.txt
+```
 
 3. Run!
-`flask run`
+```
+flask run
+```
