@@ -1,16 +1,15 @@
-import json, datetime, os
-
-import boto3
-from botocore.exceptions import ClientError
+import json
+import datetime
+import os
 
 from functools import wraps
 from flask import Blueprint, request, abort, jsonify
-import bcrypt, jwt
+import bcrypt
+import jwt
+
+from .extensions import mongo
 
 main = Blueprint('main', __name__)
-
-dynamo = boto3.resource('dynamodb')
-table = dynamo.Table('Crude-Gradebook-Users')
 
 def token_required(f):
     @wraps(f)
@@ -23,12 +22,7 @@ def token_required(f):
 
         try:
             data = jwt.decode(token, os.environ.get('SECRET_KEY'))
-
-            response = table.get_item(Key={'username': data['username']})
-            if 'Item' not in response: abort(404)
-            current_user = response['Item']
-
-            # current_user = mongo.db.users.find_one_or_404({'username': data['username']}) ############################################################################
+            current_user = mongo.db.users.find_one_or_404({'username': data['username']})
         except: return jsonify({'message': 'Token invalid!'}), 401
 
         return f(current_user, *args, **kwargs)
@@ -40,19 +34,14 @@ def index():
 
 @main.route('/api')
 def testDBConnection():
-    response = table.get_item(Key={'username': 'test'})
-    if 'Item' not in response: abort(404)
-    return response['Item']['firstname']
+    test = mongo.db.users.find_one_or_404({"username": "test"})
+    return test['firstname']
 
 @main.route('/api/login', methods=['POST'])
 def login():
     if not request.json or not 'username' in request.json or not 'password' in request.json: abort(400)
 
-    # user = mongo.db.users.find_one_or_404({'username': request.json['username']}) ############################################################################
-
-    response = table.get_item(Key={'username': request.json['username']})
-    if 'Item' not in response: abort(404)
-    user = response['Item']
+    user = mongo.db.users.find_one_or_404({'username': request.json['username']})
 
     password_hash = user['password_hash']
     input_password = request.json['password']
@@ -70,25 +59,23 @@ def createUser():
     if not request.json or not 'username' in request.json or not 'firstname' in request.json or not 'password' in request.json: abort(400)
 
     # Validates user does not already exist. If user exists, abort
-    # user = mongo.db.users.find_one({'username': request.json['username']})
-    
-    response = table.get_item(Key={'username': request.json['username']})
-    if 'Item' not in response: abort(400)
-    user = response['Item']
+    user = mongo.db.users.find_one({'username': request.json['username']})
+    if user is not None: abort(400)
 
     password_hash = bcrypt.hashpw( (request.json['password']).encode('utf-8'), bcrypt.gensalt() )
 
     newUser = {
         'username': request.json['username'],
         'firstname': request.json['firstname'],
-        'password_hash': password_hash.decode(),
+        'password_hash': password_hash.decode()
+    }
+    newUserTranscript = {
+        'username': request.json['username'],
         'transcript': [None]
     }
 
-    table.put_item(Item=newUser)
-
-    # mongo.db.users.insert_one( newUser ) ############################################################################
-    # mongo.db.transcripts.insert_one( newUserTranscript ) ############################################################################
+    mongo.db.users.insert_one( newUser )
+    mongo.db.transcripts.insert_one( newUserTranscript )
 
     return jsonify( {'message': 'The account was successfully created'} )
 
@@ -104,25 +91,12 @@ def getCurrentUser(current_user):
 @main.route('/api/users/transcript', methods=['GET'])
 @token_required
 def getCurrentUserTranscript(current_user):
-    response = table.get_item(Key={'username': current_user['username']})
-    if 'Item' not in response: abort(400)
-    user = response['Item']
-
-    transcript = user.get('transcript', [])
-    return jsonify(transcript)
+    transcript = mongo.db.transcripts.find_one_or_404( {'username': current_user['username']} )
+    return jsonify(transcript['transcript'])
 
 @main.route('/api/users/transcript', methods=['PUT'])
 @token_required
 def updateCurrentUserTranscript(current_user):
     if not request.json or not 'transcript' in request.json: abort(400)
-
-    try:
-        response = table.update_item(
-            Key={'username': current_user['username']},
-            UpdateExpression='set transcript=:s',
-            ExpressionAttributeValues={':s': current_user['transcript']})
-    except ClientError as e:
-        print('Error updating user!', e)
-
-    # mongo.db.transcripts.update_one( {'username': current_user['username']} , { '$set': {'transcript': request.json['transcript']} } ) ############################################################################
+    mongo.db.transcripts.update_one( {'username': current_user['username']} , { '$set': {'transcript': request.json['transcript']} } )
     return jsonify({'message': 'The user transcript has been successfully updated.'})
