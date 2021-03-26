@@ -5,12 +5,16 @@ Authored by Nykolas Farhangi (3/24/21)
 ## Usage Guide
 
 1. Set up and Activate Python Virtual Environment
+
+Unix
 ```
 $ python3 -m venv venv
 $ source venv/bin/activate
 (venv) $ _
 ```
 or
+
+Windows
 ```
 $ python -m venv venv
 $ venv\Scripts\activate
